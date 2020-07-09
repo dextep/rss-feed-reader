@@ -23,10 +23,10 @@ export default function FeedPreview (props) {
     useEffect(() => {
         if (!initialized) {
             setUrl(url);
-            getListings(url);
+            getListings(url).then();
             setInitialized(true);
         }
-    });
+    }, [initialized, url]);
 
     return (
         <div>
