@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import './styles.scss'
 import axios from 'axios'
+import lookup from'./lookup.png';
+
 
 export default function FeedPreview (props) {
 
     const [initialized, setInitialized] = useState(false);
+    const [searching, setSearching] = useState("");
     const [url, setUrl] = useState(props.url);
     const [listings, setListings] = useState([]);
     const [data, setData] = useState({});
@@ -27,40 +30,49 @@ export default function FeedPreview (props) {
         }
     });
 
-    const openLink = url => {
-        window.location.href = url;
-    };
-
     return (
         <div>
             <div className="feeds-box">
                 <div className="feeds-box__header">
                     <h1 className="header-primary">
                         <span className="header-primary--title">{data.title}</span>
-                        {/*<span className="header-primary--description">{data.description}</span>*/}
                     </h1>
+                    <div className="look-for-box">
+                        <input className="look-for-box__input"
+                               type="text"
+                               placeholder="Search..."
+                               onChange={ e => setSearching(e.target.value) }
+                        />
+                    </div>
                 </div>
                 <div className="feeds">
+
                     {listings.length === 0 && <p>Loading...</p>}
-                    {listings.map((item, i) => {
-                        return (
-                            <div className="item" key={i}>
-                                {
-                                    typeof item.enclosure.link !== 'undefined' &&
-                                    <div className="item__img">
-                                        <img className="img" src={item.enclosure.link}/>
+                    {
+                        listings.filter( item => item.title.toLowerCase().includes(searching.toLowerCase())).map((item, i) => {
+                            return (
+                                <div className="item" key={i}>
+                                    {
+                                        typeof item.enclosure.link !== 'undefined' &&
+                                        <div className="item__img">
+                                            <img className="img" src={item.enclosure.link}/>
+                                        </div>
+                                    }
+                                    <div className="item__title">
+                                        <h1 className="header-secondary">
+                                            <span className="header-secondary--title">{item.title}</span>
+                                        </h1>
+                                        {/*<h1 className="header-secondary">*/}
+                                        {/*    <span className="header-secondary--description" dangerouslySetInnerHTML={{__html: item.content}} />*/}
+                                        {/*</h1>*/}
+                                        <p className="header-secondary--date">{item.pubDate}</p>
                                     </div>
-                                }
-                                <div className="item__title">
-                                    <h1 className="header-secondary">
-                                        <span className="header-secondary--title">{item.title}</span>
-                                    </h1>
-                                    <span className="header-secondary--description" dangerouslySetInnerHTML={{__html: item.content}} />
-                                    <p>{item.pubDate}</p>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })
+
+                    }
+
                 </div>
             </div>
 
