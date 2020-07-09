@@ -135,13 +135,6 @@ $color-black: #000000;
   bottom: 50%;
   transform: translateY(50%);
 
-  &__icon {
-    height: 25px;
-    width: 25px;
-    text-align: center;
-    background-image: url(./lookup.png);
-  }
-
   &__input {
     color: inherit;
     padding: 5px 15px;

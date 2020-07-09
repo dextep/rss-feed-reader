@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './styles.scss'
 import axios from 'axios'
-import lookup from'./lookup.png';
-
 
 export default function FeedPreview (props) {
 
@@ -41,8 +39,7 @@ export default function FeedPreview (props) {
                         <input className="look-for-box__input"
                                type="text"
                                placeholder="Search..."
-                               onChange={ e => setSearching(e.target.value) }
-                        />
+                               onChange={ e => setSearching(e.target.value) }/>
                     </div>
                 </div>
                 <div className="feeds">
@@ -55,7 +52,7 @@ export default function FeedPreview (props) {
                                     {
                                         typeof item.enclosure.link !== 'undefined' &&
                                         <div className="item__img">
-                                            <img className="img" src={item.enclosure.link}/>
+                                            <img className="img" src={item.enclosure.link} alt={"Preview"}/>
                                         </div>
                                     }
                                     <div className="item__title">
