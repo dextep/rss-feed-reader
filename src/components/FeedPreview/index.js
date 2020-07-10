@@ -39,7 +39,7 @@ export default function FeedPreview (props) {
         <div>
             <div className="feeds-box">
                 <div className="feeds-box__header">
-                    <h1 className="header-primary"><a className="header-primary--title" href={data.link} target="_blank" >{data.title}</a></h1>
+                    <h1 className="header-primary"><a className="header-primary--title" href={data.link} >{data.title}</a></h1>
                     <div className="look-for-box">
                         <svg aria-hidden="true" className="look-for-box__icon" >
                             <path d="M18 16.5l-5.14-5.18h-.35a7 7 0 10-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 112 7a5 5 0 0110 0z" />
