@@ -4,6 +4,10 @@ import axios from 'axios'
 
 export default function FeedPreview (props) {
 
+    const API_LINK = 'https://api.rss2json.com/v1/api.json?rss_url=';
+    const API_KEY = 'mltpnjs79fuaizz0505a9usuj8e3wiferiymupzi'; // rss2json api key is required to get more then 10 count - https://rss2json.com/docs
+    const FEED_UPDATE = 30000; //30sec
+
     const [initialized, setInitialized] = useState(false);
     const [searching, setSearching] = useState("");
     const [error, setError] = useState(false);
@@ -13,15 +17,24 @@ export default function FeedPreview (props) {
 
     const getListings = async url => {
         try {
-            await axios.get(`https://api.rss2json.com/v1/api.json?rss_url=`+url)
-                .then( response => {
+            await axios.get(API_LINK+url,
+                {
+                    params: {
+                        api_key: API_KEY,
+                        order_by: 'pubDate',
+                        count: 50
+                    }
+                }
+            )
+                .then(response => {
+                    console.log(response)
                     setListings(response.data.items);
                     setData(response.data.feed);
                 })
-                .catch( error => {
+                .catch(error => {
                     setError(true);
-                    console.log(url+" - "+error.toJSON().message);
-                });
+                    console.log(url + " - " + error.toJSON().message);
+                })
         } catch (ex) {
             console.log(ex);
         }
@@ -33,6 +46,10 @@ export default function FeedPreview (props) {
             getListings(url).then();
             setInitialized(true);
         }
+        const interval = setInterval(() => {
+            getListings(url);
+        }, FEED_UPDATE);
+        return () => clearInterval(interval);
     }, [initialized, url]);
 
     function timeDiff(curr, prev) {
