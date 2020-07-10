@@ -6,7 +6,7 @@ function App() {
     <div className="App">
         <FeedPreview url="https://www.gamespot.com/feeds/mashup/"/>
         <FeedPreview url="http://www.reddit.com/.rss"/>
-        <FeedPreview url="http://feeds.bbci.co.uk/news/rss.xml"/>
+        <FeedPreview url="http://feeds.bbci.co.uk/nesdadaaws/rss.xml"/>
     </div>
   );
 }

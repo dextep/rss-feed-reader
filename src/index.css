@@ -13,5 +13,5 @@ code {
 }
 
 body {
-  background-image: linear-gradient(to right, rgba(40, 94, 130, 0.5), rgba(187, 187, 187, 0.5));
+  background-image: linear-gradient(to right, #0F2027, #203A43, #2c5364);
 }
