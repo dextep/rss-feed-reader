@@ -97,7 +97,8 @@ export default function FeedPreview (props) {
                                         }
                                         <div className="item__title">
                                             <h1 className="header-secondary">
-                                                <span className="header-secondary--title">{item.title}</span>
+                                                {/*By default, React does not allow create tags from string variables because this is too dangerous. Unfortunately we got it in title.*/}
+                                                <span className="header-secondary--title"  dangerouslySetInnerHTML={{__html: item.title}} />
                                             </h1>
                                             {/*<h1 className="header-secondary">*/}
                                             {/*    <span className="header-secondary--description" dangerouslySetInnerHTML={{__html: item.content}} />*/}
