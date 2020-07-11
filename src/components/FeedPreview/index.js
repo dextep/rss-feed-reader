@@ -1,56 +1,63 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import './styles.scss'
-import axios from 'axios'
+import Parser from 'rss-parser'
+import FeedModal from '../FeedModal'
 
 export default function FeedPreview (props) {
 
-    const API_LINK = 'https://api.rss2json.com/v1/api.json?rss_url=';
-    const API_KEY = 'mltpnjs79fuaizz0505a9usuj8e3wiferiymupzi'; // rss2json api key is required to get more then 10 count - https://rss2json.com/docs
-    const FEED_UPDATE = 30000; //30sec
+    const TIME_RELOAD = 60000; //60sec
+    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
 
-    const [initialized, setInitialized] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [itemId, setItemId] = useState(false);
     const [searching, setSearching] = useState("");
     const [error, setError] = useState(false);
-    const [url, setUrl] = useState(props.url);
     const [listings, setListings] = useState([]);
     const [data, setData] = useState({});
 
-    const getListings = async url => {
-        try {
-            await axios.get(API_LINK+url,
-                {
-                    params: {
-                        api_key: API_KEY,
-                        order_by: 'pubDate',
-                        count: 50
-                    }
-                }
-            )
-                .then(response => {
-                    console.log(response)
-                    setListings(response.data.items);
-                    setData(response.data.feed);
-                })
-                .catch(error => {
-                    setError(true);
-                    console.log(url + " - " + error.toJSON().message);
-                })
-        } catch (ex) {
-            console.log(ex);
+
+
+
+    const escFunction = useCallback((event) => {
+        if(event.keyCode === 27) {
+            setModal(false)
         }
+    }, []);
+
+
+    const getListings = async url => {
+
+        const parser = new Parser({
+            customFields: {
+                item: [
+                    ['media:content', 'enclosure'],
+                ]
+            }
+        });
+
+        await parser.parseURL(CORS_PROXY+url)
+            .then(response => {
+                setListings(response.items);
+                setData(response);
+            })
+            .catch(error => {
+                setError(true);
+                console.log(url + " - " + error.message);
+            })
     };
 
     useEffect(() => {
-        if (!initialized) {
-            setUrl(url);
-            getListings(url).then();
-            setInitialized(true);
-        }
+        getListings(props.url).then();
         const interval = setInterval(() => {
-            getListings(url);
-        }, FEED_UPDATE);
-        return () => clearInterval(interval);
-    }, [initialized, url]);
+            getListings(props.url).then();
+        }, TIME_RELOAD);
+        document.addEventListener("keydown", escFunction, false);
+
+        return () => {
+            clearInterval(interval);
+            document.removeEventListener("keydown", escFunction, false);
+        };
+    }, [props.url, TIME_RELOAD, escFunction]);
 
     function timeDiff(curr, prev) {
         var ms_Min = 60 * 1000;     // milliseconds in Minute
@@ -78,6 +85,10 @@ export default function FeedPreview (props) {
 
     return (
         <div>
+            {
+                modal &&
+                <FeedModal content={listings[itemId].content} title={listings[itemId].title} onFeedModalClose={ () => setModal(false) } openLink={ () => window.open(listings[itemId].link) }/>
+            }
             <div className="feeds-box">
                 <div className="feeds-box__header">
                     <h1 className="header-primary"><a className="header-primary--title" href={data.link} >{data.title}</a></h1>
@@ -98,18 +109,23 @@ export default function FeedPreview (props) {
                             <div className="error-message">
                                 <h1 className="error-message--title">An error occurred.</h1>
                                 <p className="error-message--description">Try again</p>
-                                <button className="error-message--button" onClick={ () => getListings(url)}>Ok</button>
+                                <button className="error-message--button" onClick={ () => getListings(props.url)}>Ok</button>
                             </div>
 
                         ) :
                         (
                             listings.filter( item => item.title.toLowerCase().includes(searching.toLowerCase())).map((item, i) => {
                                 return (
-                                    <div className="item"  onClick={() => window.open(item.link)} key={i}>
+                                    <div className="item"
+                                         onClick={() => {
+                                             setModal(true);
+                                             setItemId(i);
+                                         }}
+                                         key={i}>
                                         {
-                                            typeof item.enclosure.link !== 'undefined' &&
+                                            typeof item.enclosure !== 'undefined' &&
                                             <div className="item__img">
-                                                <img className="img" src={item.enclosure.link} alt={"Preview"}/>
+                                                <img className="img" src={item.enclosure.$.url} alt={"Preview"}/>
                                             </div>
                                         }
                                         <div className="item__title">
@@ -117,9 +133,6 @@ export default function FeedPreview (props) {
                                                 {/*By default, React does not allow create tags from string variables because this is too dangerous. Unfortunately we got it in title.*/}
                                                 <span className="header-secondary--title"  dangerouslySetInnerHTML={{__html: item.title}} />
                                             </h1>
-                                            {/*<h1 className="header-secondary">*/}
-                                            {/*    <span className="header-secondary--description" dangerouslySetInnerHTML={{__html: item.content}} />*/}
-                                            {/*</h1>*/}
                                             <p className="header-secondary--date">{timeDiff(new Date(),new Date(item.pubDate))}</p>
                                         </div>
                                     </div>
