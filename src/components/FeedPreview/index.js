@@ -2,18 +2,18 @@ import React, {useEffect, useState} from "react";
 import './styles.scss'
 import Parser from 'rss-parser'
 import FeedModal from '../FeedModal'
-import magnifier from './loupe.svg'
+import { ReactComponent as MagnifierIcon } from './loupe.svg';
 
 export default function FeedPreview (props) {
 
     const TIME_RELOAD = 60000; //60sec
     const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
 
-    const [modal, setModal] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(false);
     const [searching, setSearching] = useState("");
     const [error, setError] = useState(false);
-    const [listOfFeedItems, setListOfFeedItems] = useState([]);
+    const [listOfFeedItems, setListOfFeedItems] = useState(null);
     const [feedInfo, setFeedInfo] = useState({});
 
     const getListOfFeedItems = url => {
@@ -71,10 +71,10 @@ export default function FeedPreview (props) {
     return (
         <div>
             {
-                modal &&
+                (listOfFeedItems && isModalOpen) &&
                 <FeedModal content={listOfFeedItems[selectedItemId].content}
                            title={listOfFeedItems[selectedItemId].title}
-                           onFeedModalClose={ () => setModal(false) }
+                           onFeedModalClose={ () => setIsModalOpen(false) }
                            openLink={ () => window.open(listOfFeedItems[selectedItemId].link) }
                 />
             }
@@ -82,7 +82,7 @@ export default function FeedPreview (props) {
                 <div className="feeds-box__header">
                     <h1 className="header-primary"><a className="header-primary--title" href={feedInfo.link} >{feedInfo.title}</a></h1>
                     <div className="look-for-box">
-                        <img className="look-for-box__icon"  src={magnifier}  alt={magnifier}/>
+                        <MagnifierIcon className="look-for-box__icon" />
                         <input className="look-for-box__input"
                                type="text"
                                placeholder="Search..."
@@ -100,17 +100,21 @@ export default function FeedPreview (props) {
                             </div>
 
                         ) :
-                        [
-                            (
-                                listOfFeedItems.length === 0 &&
-                                    <h3>Loading...</h3>
-                            ),
-                            (
-                                listOfFeedItems.filter( item => item.title.toLowerCase().includes(searching.toLowerCase())).map((item, i) => {
+                        <>
+                            {
+                                !listOfFeedItems &&
+                                    <h4>Waiting for server...</h4>
+                            }
+                            {
+                                listOfFeedItems && (listOfFeedItems.length === 0) &&
+                                    <h4>No news...</h4>
+                            }
+                            {
+                                listOfFeedItems && listOfFeedItems.filter( item => item.title.toLowerCase().includes(searching.toLowerCase())).map((item, i) => {
                                     return (
                                         <div className="item"
                                              onClick={() => {
-                                                 setModal(true);
+                                                 setIsModalOpen(true);
                                                  setSelectedItemId(i);
                                              }}
                                              key={i}>
@@ -130,8 +134,8 @@ export default function FeedPreview (props) {
                                         </div>
                                     );
                                 })
-                            )
-                        ]
+                            }
+                        </>
                     }
                 </div>
             </div>
