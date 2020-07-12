@@ -22,7 +22,6 @@ Project is creating with:
   * Live feed every minute due of hosting limits
   * Searching news
   * Easy use
-  * Responsiveness
   
 ## Example
 
@@ -38,7 +37,7 @@ Pass RSS feed as props argument.
 ### Feed preview
 ![preview](https://i.ibb.co/NxRzdmx/Screenshot-2020-07-12-at-19-34-45.png)
 
-### Responsiveness website preview (iPhone 6/7/8 Plus)
+### iPhone 6/7/8 Plus
 
 <img src="https://i.ibb.co/92sNGyS/Screenshot-2020-07-12-at-19-58-15.png" width="300"> <img src="https://i.ibb.co/sJLZ2gL/Screenshot-2020-07-12-at-19-58-56.png" width="300">
 
