@@ -11,8 +11,7 @@ $color-black: #000000;
 $color-error: #eb0200;
 $color-green-dark: #0F2027;
 
-$break-small: 520px;
-$break-large: 1200px;
+$break-medium: 768px;
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -29,14 +28,14 @@ $break-large: 1200px;
   font-style: normal;
   font-size: 14px;
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: $break-medium) {
     border-radius: 5px;
     margin: 40px 20px;
     width: auto;
     height: 500px;
   }
 
-  @media screen and (min-width: $break-large) {
+  @media screen and (min-width: $break-medium) {
     border-radius: 20px;
     margin: 40px 180px;
     width: auto;
@@ -52,11 +51,11 @@ $break-large: 1200px;
     background-color: rgba($color-white, .8);
     height: 40px;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: $break-medium) {
       border-radius: 5px 5px 0 0;
     }
 
-    @media screen and (min-width: $break-large) {
+    @media screen and (min-width: $break-medium) {
       border-radius: 20px 20px 0 0;
     }
   }
@@ -73,12 +72,12 @@ $break-large: 1200px;
   align-content: stretch;
 
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: $break-medium) {
     border-radius: 5px;
     padding: 48px 5px 10px 5px;
   }
 
-  @media screen and (min-width: $break-large) {
+  @media screen and (min-width: $break-medium) {
     border-radius: 10px;
     padding: 40px;
   }
@@ -97,13 +96,13 @@ $break-large: 1200px;
   padding: 5px;
   display: inline-flex;
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: $break-medium) {
     margin-bottom: 10px;
     width: -webkit-fill-available;
     height: 110px;
   }
 
-  @media screen and (min-width: $break-large) {
+  @media screen and (min-width: $break-medium) {
     margin: 10px;
     width: 420px;
     height: 140px;
@@ -127,13 +126,13 @@ $break-large: 1200px;
 .img {
   object-fit: cover;
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: $break-medium) {
     height: 100%;
     width: 70px;
     border-radius: 5px;
   }
 
-  @media screen and (min-width: $break-large) {
+  @media screen and (min-width: $break-medium) {
     height: 100%;
     width: 120px;
     border-radius: 15px;
@@ -147,7 +146,7 @@ $break-large: 1200px;
   margin:auto;
 
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: $break-medium) {
     padding-left: 10px;
     line-height:40px;
     vertical-align:middle;
@@ -157,7 +156,7 @@ $break-large: 1200px;
     font-size: 11px;
   }
 
-  @media screen and (min-width: $break-large) {
+  @media screen and (min-width: $break-medium) {
     padding-left: 50px;
     line-height:40px;
     vertical-align:middle;
@@ -176,12 +175,12 @@ $break-large: 1200px;
 .header-secondary  {
   text-align: left;
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: $break-medium) {
     font-size: 13px;
     font-weight: 600;
   }
 
-  @media screen and (min-width: $break-large) {
+  @media screen and (min-width: $break-medium) {
     font-size: 16px;
     font-weight: 600;
   }
@@ -197,11 +196,11 @@ $break-large: 1200px;
     position: absolute;
     bottom: 0;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: $break-medium) {
       font-size: 10px;
     }
 
-    @media screen and (min-width: $break-large) {
+    @media screen and (min-width: $break-medium) {
       font-size: 12px;
     }
   }
@@ -213,11 +212,11 @@ $break-large: 1200px;
   bottom: 50%;
   transform: translateY(50%);
 
-  @media screen and (max-width: $break-small) {
+  @media screen and (max-width: $break-medium) {
     right: 10px;
   }
 
-  @media screen and (min-width: $break-large) {
+  @media screen and (min-width: $break-medium) {
     right: 50px;
   }
 
@@ -229,11 +228,11 @@ $break-large: 1200px;
     left: .7em;
     transform: translateY(-50%);
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: $break-medium) {
       display: none;
     }
 
-    @media screen and (min-width: $break-large) {
+    @media screen and (min-width: $break-medium) {
       height: 18px;
       width: 18px;
     }
@@ -244,7 +243,7 @@ $break-large: 1200px;
     background-color: $color-white;
     transition: all .3s;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: $break-medium) {
       width: 80px;
       padding: 2px 4px;
       border-radius: 6px;
@@ -252,7 +251,7 @@ $break-large: 1200px;
       border: 1px solid rgb(227, 227, 227);
     }
 
-    @media screen and (min-width: $break-large) {
+    @media screen and (min-width: $break-medium) {
       width: 250px;
       padding: 5px 38px;
       border-radius: 1.5rem;
@@ -262,11 +261,11 @@ $break-large: 1200px;
     &:focus {
       outline: none;
 
-      @media screen and (max-width: $break-small) {
+      @media screen and (max-width: $break-medium) {
         border: 1px solid $color-green-dark;
       }
 
-      @media screen and (min-width: $break-large) {
+      @media screen and (min-width: $break-medium) {
         border: 1.5px solid $color-green-dark;
       }
 
