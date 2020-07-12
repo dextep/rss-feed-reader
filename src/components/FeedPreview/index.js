@@ -113,32 +113,38 @@ export default function FeedPreview (props) {
                             </div>
 
                         ) :
-                        (
-                            listings.filter( item => item.title.toLowerCase().includes(searching.toLowerCase())).map((item, i) => {
-                                return (
-                                    <div className="item"
-                                         onClick={() => {
-                                             setModal(true);
-                                             setItemId(i);
-                                         }}
-                                         key={i}>
-                                        {
-                                            typeof item.enclosure !== 'undefined' &&
-                                            <div className="item__img">
-                                                <img className="img" src={item.enclosure.$.url} alt={"Preview"}/>
+                        [
+                            (
+                                listings.length === 0 &&
+                                    <h3>Loading...</h3>
+                            ),
+                            (
+                                listings.filter( item => item.title.toLowerCase().includes(searching.toLowerCase())).map((item, i) => {
+                                    return (
+                                        <div className="item"
+                                             onClick={() => {
+                                                 setModal(true);
+                                                 setItemId(i);
+                                             }}
+                                             key={i}>
+                                            {
+                                                typeof item.enclosure !== 'undefined' &&
+                                                <div className="item__img">
+                                                    <img className="img" src={item.enclosure.$.url} alt={"Preview"}/>
+                                                </div>
+                                            }
+                                            <div className="item__title">
+                                                <h1 className="header-secondary">
+                                                    {/*By default, React does not allow create tags from string variables because this is too dangerous. Unfortunately we got it in title.*/}
+                                                    <span className="header-secondary--title"  dangerouslySetInnerHTML={{__html: item.title}} />
+                                                </h1>
+                                                <p className="header-secondary--date">{timeDiff(new Date(),new Date(item.pubDate))}</p>
                                             </div>
-                                        }
-                                        <div className="item__title">
-                                            <h1 className="header-secondary">
-                                                {/*By default, React does not allow create tags from string variables because this is too dangerous. Unfortunately we got it in title.*/}
-                                                <span className="header-secondary--title"  dangerouslySetInnerHTML={{__html: item.title}} />
-                                            </h1>
-                                            <p className="header-secondary--date">{timeDiff(new Date(),new Date(item.pubDate))}</p>
                                         </div>
-                                    </div>
-                                );
-                            })
-                        )
+                                    );
+                                })
+                            )
+                        ]
                     }
                 </div>
             </div>
