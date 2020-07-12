@@ -1,7 +1,21 @@
-import React from "react";
+import React, {useCallback, useEffect} from "react";
 import './styles.scss'
 
 export default function FeedModal (props) {
+
+    const escFunction = useCallback((event) => {
+        if(event.keyCode === 27) {
+            props.onFeedModalClose()
+        }
+    }, [props]);
+
+    useEffect(() => {
+        document.addEventListener("keydown", escFunction, false);
+
+        return () => {
+            document.removeEventListener("keydown", escFunction, false);
+        };
+    }, [escFunction]);
 
     return (
         <div className="modal">
