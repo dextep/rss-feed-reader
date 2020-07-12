@@ -17,7 +17,6 @@ export default function FeedModal({
 
     return () => {
       document.removeEventListener("keydown", escFunction, false);
-      onFeedModalClose();
     };
   }, [onFeedModalClose]);
 
