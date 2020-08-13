@@ -90,6 +90,7 @@ $color-black: #000000;
   width: 100px;
   border-radius: 15px;
   object-fit: cover;
+  transition: all 0.5s ease-in-out;
 }
 
 .header-primary {
